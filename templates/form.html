@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Varela+Round&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js"></script>
+    <title>COVID-19</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: black;
+            font-family: 'Roboto', sans-serif;
+
+            font-family: 'Varela Round', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-container {
+            height: 100vh !important;
+        }
+
+        .container-info {
+            min-height: 100vh;
+            margin: 5100;
+            padding: 1000;
+            background-color: black;
+        }
+
+        .img {
+            width: 100vh;
+            height: 100vh;
+        }
+
+        .logo-container {
+            filter: grayscale(1);
+        }
+
+        .form-container {
+            border-radius: 15px;
+        }
+        .option-container{
+            margin-top: -8px;
+        }
+    </style>
+</head>
+
+<body>
+    
+    <div class="main-container container-fluid">
+        <div id="app">
+            <div class="w-75 mx-auto text-center my-2 fs-1 fw-bolder text-white">COVID-19 INAI IA</div>
+            <div class="form-container w-75 p-5 bg-light text-dark mx-auto" v-if="modoEditar">
+                <div class="row">
+
+                    <div class="col-xs-12 col-md-9">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-person-fill" viewBox="0 0 16 16">
+                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                                </svg>
+                            </span>
+                            <input v-model="nombre" type="text" class="form-control" placeholder="Nombre"
+                                aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-3">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-calendar-week" viewBox="0 0 16 16">
+                                    <path
+                                        d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z" />
+                                    <path
+                                        d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                                </svg>
+                            </span>
+                            <input v-model="edad" type="number" class="form-control" placeholder="Edad"
+                                aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                </div>
+
+                <div>Selecciona tu genero: </div>
+
+                <div class="option-container row mx-1 border rounded p-1">
+                    <div class="form-check col-xs-12 col-md-3">
+                        <input v-model="sexo" class="form-check-input" type="radio" name="sexo" value="1"
+                            id="flexRadioDefault1">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            Mujer
+                        </label>
+                    </div>
+                    <div class="form-check col-xs-12 col-md-3">
+                        <input v-model="sexo" class="form-check-input" type="radio" name="sexo" value="2"
+                            id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Hombre
+                        </label>
+                    </div>
+                    <div class="form-check col-xs-12 col-md-3">
+                        <input v-model="sexo" class="form-check-input" type="radio" name="sexo" value="99"
+                            id="flexRadioDefault3">
+                        <label class="form-check-label" for="flexRadioDefault3">
+                            Sin especificar
+                        </label>
+                    </div>
+                </div>  
+
+                <select v-model="entidad_res" class="my-3 form-select" aria-label="Default select example">
+                    <option hidden value="">Selecciona tu estado</option>
+                    <option value="1">Aguascalientes</option>
+                    <option value="2">Baja California</option>
+                    <option value="3">Baja California Sur</option>
+                    <option value="4">Campeche</option>
+                    <option value="5">Coahuila</option>
+                    <option value="6">Colima</option>
+                    <option value="7">Chiapas</option>
+                    <option value="8">Chihuahua</option>
+                    <option value="9">Ciudad de México</option>
+                    <option value="10">Durango</option>
+                    <option value="11">Guanajuato</option>
+                    <option value="12">Guerrero</option>
+                    <option value="13">Hidalgo</option>
+                    <option value="14">Jalisco</option>
+                    <option value="15">México</option>
+                    <option value="16">Michoacán</option>
+                    <option value="17">Morelos</option>
+                    <option value="18">Nayarit</option>
+                    <option value="19">Nuevo León</option>
+                    <option value="20">Oaxaca</option>
+                    <option value="21">Puebla</option>
+                    <option value="22">Querétaro</option>
+                    <option value="23">Quintana Roo</option>
+                    <option value="24">San Luis Potosí</option>
+                    <option value="25">Sinaloa</option>
+                    <option value="26">Sonora</option>
+                    <option value="27">Tabasco</option>
+                    <option value="28">Tamaulipas</option>
+                    <option value="29">Tlaxcala</option>
+                    <option value="30">Veracruz</option>
+                    <option value="31">Yucatán</option>
+                    <option value="32">Zacatecas</option>
+                </select>
+
+
+                <div class="bg-light">Marca las opciones según tu caso: </div>
+                <div class="option-container border rounded pt-3">
+                    <div class="row mx-1">
+                        <div class="col-xs-12 col-md-3 form-check">
+                            <input v-model="neumonia" class="form-check-input" type="checkbox" value="" id="neumonia">
+                            <label class="form-check-label" for="neumonia">
+                                Neumonia
+                            </label>
+                        </div>
+                        <div class="col-xs-12 col-md-3 form-check">
+                            <input v-model="diabetes" class="form-check-input" type="checkbox" value="" id="diabetes">
+                            <label class="form-check-label" for="diabetes">
+                                Diabetes
+                            </label>
+                        </div>
+
+                        <div class="col-xs-12 col-md-3 form-check">
+                            <input v-model="epoc" class="form-check-input" type="checkbox" value="" id="epoc">
+                            <label class="form-check-label" for="epoc">
+                                Epoc
+                            </label>
+                        </div>
+
+
+                        <div class="col-xs-12 col-md-3 form-check">
+                            <input v-model="asma" class="form-check-input" type="checkbox" value="" id="asma">
+                            <label class="form-check-label" for="asma">
+                                Asma
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="row mx-1">
+
+                        <div class="col-xs-12 col-md-3 form-check">
+                            <input v-model="inmusupr" class="form-check-input" type="checkbox" value="" id="inmusupr">
+                            <label class="form-check-label" for="inmusupr">
+                                Inmunosupresión
+                            </label>
+                        </div>
+
+                        <div class="col-xs-12 col-md-3 form-check">
+                            <input v-model="hipertension" class="form-check-input" type="checkbox" value=""
+                                id="hipertension">
+                            <label class="form-check-label" for="hipertension">
+                                Hipertensión
+                            </label>
+                        </div>
+
+
+                        <div class="col-xs-12 col-md-3 form-check">
+                            <input v-model="otra_com" class="form-check-input" type="checkbox" value="" id="otra_com">
+                            <label class="form-check-label" for="otra_com">
+                                Otras enfermendades
+                            </label>
+                        </div>
+
+                        <div class="col-xs-12 col-md-3 form-check">
+                            <input v-model="cardiovascular" class="form-check-input" type="checkbox" value=""
+                                id="cardiovascular">
+                            <label class="form-check-label" for="cardiovascular">
+                                Enfermendades cardiovasculares
+                            </label>
+                        </div>
+
+                    </div>
+
+                    <div class="row mx-1">
+
+                        <div class="col-xs-12 col-md-3 form-check">
+                            <input v-model="obesidad" class="form-check-input" type="checkbox" value="" id="obesidad">
+                            <label class="form-check-label" for="obesidad">
+                                Obesidad
+                            </label>
+                        </div>
+
+                        <div class="col-xs-12 col-md-3 form-check">
+                            <input v-model="renal_cronica" class="form-check-input" type="checkbox" value=""
+                                id="renal_cronica">
+                            <label class="form-check-label" for="renal_cronica">
+                                Enfermedad renal crónica
+                            </label>
+                        </div>
+
+                        <div class="col-xs-12 col-md-3 form-check">
+                            <input v-model="tabaquismo" class="form-check-input" type="checkbox" value="" id="tabaquismo">
+                            <label class="form-check-label" for="tabaquismo">
+                                Tabaquismo
+                            </label>
+                        </div>
+
+                        <div class="col-xs-12 col-md-3 form-check">
+                            <input v-model="otro_caso" class="form-check-input" type="checkbox" value="" id="otro_caso">
+                            <label class="form-check-label" for="otro_caso">
+                                Contacto con algún confirmado de COVID-19
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <select v-model="clasificacion_final" class="my-3 form-select" aria-label="Default select example">
+                    <option hidden value="">Mi diagnostico de COVID-19 es:</option>
+                    <option value="1">CASO DE COVID-19 CONFIRMADO POR ASOCIACIÓN CLÍNICA EPIDEMIOLÓGICA</option>
+                    <option value="2">CASO DE COVID-19 CONFIRMADO POR COMITÉ DE DICTAMINACIÓN</option>
+                    <option value="3">CASO DE SARS-COV-2 CONFIRMADO</option>
+                    <option value="4">INVÁLIDO POR LABORATORIO</option>
+                    <option value="5">NO REALIZADO POR LABORATORIO</option>
+                    <option value="6">CASO SOSPECHOSO</option>
+                    <option value="7">NEGATIVO A SARS-COV-2</option>
+                </select>
+
+                <div class="d-grid gap-2 mt-3">
+                    <button v-on:click="predict" class="btn btn-dark" type="button">PREDECIR MI RIESGO (IA)</button>
+                </div>
+            
+               
+            </div>
+            <div v-else>
+                <div class="fs-1 fw-bolder bg-light text-dark">Paciente: {{ '{{ nombre }}' }} <br> Resultados: {{ '{{ message }}' }}</div>
+                <button v-on:click="modoEdicion" class="btn btn-dark" type="button">Reiniciar test</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello Vue.js!',
+                nombre: '',
+                sexo: '',
+                entidad_res: '',
+                neumonia: false,
+                edad: '',
+                diabetes: false,
+                epoc: false,
+                asma: false,
+                inmusupr: false,
+                hipertension: false,
+                otra_com: false,
+                cardiovascular: false,
+                obesidad: false,
+                renal_cronica: false,
+                tabaquismo: false,
+                otro_caso: false,
+                clasificacion_final: '',
+                modoEditar : true
+            },
+            methods: {
+                predict() {
+                    const urlbase = 'http://127.0.0.1:5000';
+
+                    fetch(`${urlbase}/predict?sexo=${this.sexo}&entidad_res=${this.entidad_res}&neumonia=${this.getValue(this.neumonia)}&edad=${this.edad}&diabetes=${this.getValue(this.diabetes)}&epoc=${this.getValue(this.epoc)}&asma=${this.getValue(this.asma)}&inmusupr=${this.getValue(this.inmusupr)}&hipertension=${this.getValue(this.hipertension)}&otra_com=${this.getValue(this.otra_com)}&cardiovascular=${this.getValue(this.cardiovascular)}&obesidad=${this.getValue(this.obesidad)}&renal_cronica=${this.getValue(this.renal_cronica)}&tabaquismo=${this.getValue(this.tabaquismo)}&otro_caso=${this.getValue(this.otro_caso)}&clasificacion_final=2`)
+                        .then(res => res.json())
+                        .then(data => {
+                            if(data.result=='1')
+                                this.message = "Bajo riesgo de mortalidad";
+                            if(data.result=='2')
+                                this.message = "Alto riesgo de mortalidad";
+                            this.modoEditar = false;
+                        })
+                        .catch(console.log);
+                },
+                modoEdicion(){
+                    this.modoEditar = true;
+                    this.nombre='';
+                    this.sexo= '';
+                    this.entidad_res= '';
+                    this.neumonia= false;
+                    this.edad= '';
+                    this.diabetes= false;
+                    this.epoc= false;
+                    this.asma= false;
+                    this.inmusupr= false;
+                    this.hipertension= false;
+                    this.otra_com= false;
+                    this.cardiovascular= false;
+                    this.obesidad= false;
+                    this.renal_cronica= false;
+                    this.tabaquismo= false;
+                    this.otro_caso= false;
+                    this.clasificacion_final= '';
+                },
+
+                getValue(item) {
+                    return item ? 1 : 2
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

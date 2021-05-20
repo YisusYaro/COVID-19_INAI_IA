@@ -307,7 +307,7 @@
             },
             methods: {
                 predict() {
-                    const urlbase = 'http://'+location.host;
+                    const urlbase = 'https://'+location.host;
                     console.log(urlbase);
 
                     fetch(`${urlbase}/predict?sexo=${this.sexo}&entidad_res=${this.entidad_res}&neumonia=${this.getValue(this.neumonia)}&edad=${this.edad}&diabetes=${this.getValue(this.diabetes)}&epoc=${this.getValue(this.epoc)}&asma=${this.getValue(this.asma)}&inmusupr=${this.getValue(this.inmusupr)}&hipertension=${this.getValue(this.hipertension)}&otra_com=${this.getValue(this.otra_com)}&cardiovascular=${this.getValue(this.cardiovascular)}&obesidad=${this.getValue(this.obesidad)}&renal_cronica=${this.getValue(this.renal_cronica)}&tabaquismo=${this.getValue(this.tabaquismo)}&otro_caso=${this.getValue(this.otro_caso)}&clasificacion_final=2`)

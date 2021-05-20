@@ -50,26 +50,32 @@
         .form-container {
             border-radius: 15px;
         }
-        .option-container{
+
+        .option-container {
             margin-top: -8px;
+        }
+
+        .nounderline {
+            text-decoration: none !important
         }
     </style>
 </head>
 
 <body>
-    
+
     <div class="main-container container-fluid">
         <div id="app">
-            <div class="w-75 mx-auto text-center my-2 fs-1 fw-bolder text-white">COVID-19 INAI IA</div>
-            <div class="form-container w-75 p-5 bg-light text-dark mx-auto" v-if="modoEditar">
+            <div class="mx-auto text-center my-2 fs-1 fw-bolder text-white"><a class="link-light nounderline"
+                    href="/">COVID-19 INAI IA</a></div>
+            <div class="form-container col-xs-12 col-md-9 p-3 p-md-5 bg-light text-dark mx-auto" v-if="modoEditar">
                 <div class="row">
-
                     <div class="col-xs-12 col-md-9">
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-person-fill" viewBox="0 0 16 16">
-                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                                    <path
+                                        d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
                                 </svg>
                             </span>
                             <input v-model="nombre" type="text" class="form-control" placeholder="Nombre"
@@ -118,7 +124,7 @@
                             Sin especificar
                         </label>
                     </div>
-                </div>  
+                </div>
 
                 <select v-model="entidad_res" class="my-3 form-select" aria-label="Default select example">
                     <option hidden value="">Selecciona tu estado</option>
@@ -242,7 +248,8 @@
                         </div>
 
                         <div class="col-xs-12 col-md-3 form-check">
-                            <input v-model="tabaquismo" class="form-check-input" type="checkbox" value="" id="tabaquismo">
+                            <input v-model="tabaquismo" class="form-check-input" type="checkbox" value=""
+                                id="tabaquismo">
                             <label class="form-check-label" for="tabaquismo">
                                 Tabaquismo
                             </label>
@@ -271,13 +278,43 @@
                 <div class="d-grid gap-2 mt-3">
                     <button v-on:click="predict" class="btn btn-dark" type="button">PREDECIR MI RIESGO (IA)</button>
                 </div>
-            
-               
+
+
             </div>
-            <div v-else>
-                <div class="fs-1 fw-bolder bg-light text-dark">Paciente: {{ '{{ nombre }}' }} <br> Resultados: {{ '{{ message }}' }}</div>
-                <button v-on:click="modoEdicion" class="btn btn-dark" type="button">Reiniciar test</button>
+            <div v-else class="mx-auto text-center text-md-start col-xs-12 col-md-9 p-3 p-md-5 bg-light text-dark">
+                <div class="fs-1 fw-bolder bg-light text-dark">Paciente: {{ '{{ nombre }}' }} <br> Resultado: {{ '{{
+                    message }}' }}
+                    <div class="d-grid gap-2 mt-3">
+                        <button v-on:click="modoEdicion" class="btn btn-dark" type="button">Reiniciar Test</button>
+                    </div>
+                </div>
             </div>
+
+
+
+            <div v-if="show_modal" class="modal" tabindex="-1" style="display:block">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Por favor verifique: </h5>
+                        </div>
+                        <div class="modal-body">
+                            <p>Existen algunos errores en los siguientes campos en el llenado de su test.</p>
+                            <ul class="list-group">
+                                <li class="list-group-item" v-for="(item, index) in input_errors" :key="index">
+                                    <p>{{ '{{ item }}' }}</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="modal-footer">
+                            <button v-on:click="hideModal" type="button" class="btn btn-secondary">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
         </div>
     </div>
 
@@ -303,45 +340,87 @@
                 tabaquismo: false,
                 otro_caso: false,
                 clasificacion_final: '',
-                modoEditar : true
+                modoEditar: true,
+                show_modal: false,
+                input_errors: [],
             },
             methods: {
                 predict() {
-                    const urlbase = 'https://'+location.host;
+
+                    let num_errors = 0;
+
+                    if (this.nombre == '') {
+                        this.input_errors.push("Nombre");
+                        this.showModal();
+                        num_errors++;
+                    }
+                    if (this.sexo == '') {
+                        this.input_errors.push("Género");
+                        this.showModal();
+                        num_errors++;
+                    }
+                    if (this.entidad_res == '') {
+                        this.input_errors.push("Estado de residencia");
+                        this.showModal();
+                        num_errors++;
+                    }
+                    if (this.edad == '') {
+                        this.input_errors.push("Edad");
+                        this.showModal();
+                        num_errors++;
+                    }
+                    if (this.clasificacion_final == '') {
+                        this.input_errors.push("Diagnóstico de COVID-19");
+                        this.showModal();
+                        num_errors++;
+                    }
+
+                    if (num_errors > 0) {
+                        return null;
+                    }
+
+
+                    const urlbase = 'https://' + location.host;
                     console.log(urlbase);
 
                     fetch(`${urlbase}/predict?sexo=${this.sexo}&entidad_res=${this.entidad_res}&neumonia=${this.getValue(this.neumonia)}&edad=${this.edad}&diabetes=${this.getValue(this.diabetes)}&epoc=${this.getValue(this.epoc)}&asma=${this.getValue(this.asma)}&inmusupr=${this.getValue(this.inmusupr)}&hipertension=${this.getValue(this.hipertension)}&otra_com=${this.getValue(this.otra_com)}&cardiovascular=${this.getValue(this.cardiovascular)}&obesidad=${this.getValue(this.obesidad)}&renal_cronica=${this.getValue(this.renal_cronica)}&tabaquismo=${this.getValue(this.tabaquismo)}&otro_caso=${this.getValue(this.otro_caso)}&clasificacion_final=2`)
                         .then(res => res.json())
                         .then(data => {
-                            if(data.result=='1')
+                            if (data.result == '1')
                                 this.message = "Bajo riesgo de mortalidad";
-                            if(data.result=='2')
+                            if (data.result == '2')
                                 this.message = "Alto riesgo de mortalidad";
                             this.modoEditar = false;
                         })
                         .catch(console.log);
                 },
-                modoEdicion(){
+                modoEdicion() {
                     this.modoEditar = true;
-                    this.nombre='';
-                    this.sexo= '';
-                    this.entidad_res= '';
-                    this.neumonia= false;
-                    this.edad= '';
-                    this.diabetes= false;
-                    this.epoc= false;
-                    this.asma= false;
-                    this.inmusupr= false;
-                    this.hipertension= false;
-                    this.otra_com= false;
-                    this.cardiovascular= false;
-                    this.obesidad= false;
-                    this.renal_cronica= false;
-                    this.tabaquismo= false;
-                    this.otro_caso= false;
-                    this.clasificacion_final= '';
+                    this.nombre = '';
+                    this.sexo = '';
+                    this.entidad_res = '';
+                    this.neumonia = false;
+                    this.edad = '';
+                    this.diabetes = false;
+                    this.epoc = false;
+                    this.asma = false;
+                    this.inmusupr = false;
+                    this.hipertension = false;
+                    this.otra_com = false;
+                    this.cardiovascular = false;
+                    this.obesidad = false;
+                    this.renal_cronica = false;
+                    this.tabaquismo = false;
+                    this.otro_caso = false;
+                    this.clasificacion_final = '';
                 },
-
+                showModal() {
+                    this.show_modal = true;
+                },
+                hideModal() {
+                    this.input_errors = [];
+                    this.show_modal = false;
+                },
                 getValue(item) {
                     return item ? 1 : 2
                 }

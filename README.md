@@ -22,6 +22,12 @@ pip install flask sklearn pandas
 python main.py
 ```
 
+Usando Docker 
+
+```
+docker build .
+```
+
 ## Construido con 🛠️
 
 _Menciona las herramientas que utilizaste para crear tu proyecto_

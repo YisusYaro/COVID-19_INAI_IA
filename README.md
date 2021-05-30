@@ -29,7 +29,7 @@ docker build .
 ```
 
 ```
-sudo docker run <CONTAINER_ID>
+docker run <CONTAINER_ID>
 ```
 
 

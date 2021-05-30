@@ -25,11 +25,11 @@ python main.py
 Usando Docker 
 
 ```
-docker build .
+docker build -t covid19inai .  
 ```
 
 ```
-docker run <CONTAINER_ID>
+docker run covid19inai
 ```
 
 

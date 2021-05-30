@@ -6,4 +6,4 @@ RUN pip3 install flask sklearn pandas
 
 COPY . .
 
-RUN python3 main.py
+CMD ["python3", "main.py"]

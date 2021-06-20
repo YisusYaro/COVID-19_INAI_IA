@@ -2,7 +2,7 @@
 
 _¿Cómo funciona el test? Se utiliza una red neuronal artificial entrenada con una base de datos del PNT del INAI que contiene casos reales de personas que lamentablemente padecieron la enfermedad de COVID-19. Posteriormente te ofrecemos una predicción de tu riesgo de mortalidad._
 
-## Realizar TEST 🚀
+## Realizar TEST (down 😢)
 
 [COVID-19 INAI IA](https://yisusyaro-covid-19-inai-ia.zeet.app/)
 

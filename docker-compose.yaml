@@ -1,5 +1,8 @@
 version: '3.8'
 
+networks:
+  test:
+
 services:
 
   nginx-proxy:
@@ -13,7 +16,7 @@ services:
       - 'vhostd:/etc/nginx/vhost.d'
       - 'html:/usr/share/nginx/html'
     networks:
-      - queriendome
+      - test
     labels:
       - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy
 
@@ -34,8 +37,16 @@ services:
       dockerfile: ./Dockerfile
     container_name: covid-test-container
     expose:
-      - 80:80
+      - 80
+    networks:
+      - test
     environment:
       - 'VIRTUAL_HOST=covid.jesusyaro.com'
       - 'LETSENCRYPT_HOST=covid.jesusyaro.com'
       - 'LETSENCRYPT_EMAIL=jesusaleyaro@hotmail.com'
+
+
+volumes:
+  certs: null
+  html: null
+  vhostd: null

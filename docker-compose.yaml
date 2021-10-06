@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - '/var/run/docker.sock:/tmp/docker.sock:ro'
+      - 'certs:/etc/nginx/certs:ro'
+      - 'vhostd:/etc/nginx/vhost.d'
+      - 'html:/usr/share/nginx/html'
+    networks:
+      - queriendome
+    labels:
+      - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy
+
+  letsencrypt:
+    image: nginxproxy/acme-companion
+    environment:
+      - NGINX_PROXY_CONTAINER=nginx-proxy
+      - ACME_CA_URI=https://acme-staging-v02.api.letsencrypt.org/directory
+    volumes:
+      - 'certs:/etc/nginx/certs:rw'
+      - 'vhostd:/etc/nginx/vhost.d'
+      - 'html:/usr/share/nginx/html'
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+
+  covid-test-service:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: covid-test-container
+    expose:
+      - 80:80
+    environment:
+      - 'VIRTUAL_HOST=covid.jesusyaro.com'
+      - 'LETSENCRYPT_HOST=covid.jesusyaro.com'
+      - 'LETSENCRYPT_EMAIL=jesusaleyaro@hotmail.com'

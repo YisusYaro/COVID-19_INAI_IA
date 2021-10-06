@@ -2,7 +2,7 @@ FROM python:3.8-slim-buster
 
 WORKDIR /app
 
-RUN pip3 install flask sklearn pandas
+RUN pip3 install flask sklearn pandas waitress
 
 COPY . .
 
